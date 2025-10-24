@@ -37,6 +37,14 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Elementos de la solución",
 		Dockerfile = Dockerfile
 		global.json = global.json
 		README.md = README.md
+		redeploy.ps1 = redeploy.ps1
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".github", ".github", "{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflows", "workflows", "{70EDBB83-C2DD-447D-95E1-0E52469956EF}"
+	ProjectSection(SolutionItems) = preProject
+		deploy.yml = deploy.yml
 	EndProjectSection
 EndProject
 Global
@@ -126,6 +134,7 @@ Global
 		{DE48F8A5-8CAB-E6CB-0EE8-1CF6347842D4} = {E33C3B9B-9FF5-1418-502F-E495C2C99ED6}
 		{740487EF-EDCE-DF8B-59C8-854F49E8D3D2} = {DE48F8A5-8CAB-E6CB-0EE8-1CF6347842D4}
 		{510F78B5-3F39-46A6-92DD-F08070E64106} = {740487EF-EDCE-DF8B-59C8-854F49E8D3D2}
+		{70EDBB83-C2DD-447D-95E1-0E52469956EF} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {EF024A48-EF1D-46EA-9F28-3087B57E4371}

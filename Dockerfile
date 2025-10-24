@@ -15,5 +15,6 @@ RUN dotnet publish ./BackCoding-Challenge/src/WebApi/BackCoding.Challenge.WebApi
 FROM mcr.microsoft.com/dotnet/aspnet:8.0
 WORKDIR /app
 COPY --from=build /app/out .
-EXPOSE 80
+EXPOSE 8080
+ENV ASPNETCORE_URLS=http://+:8080
 ENTRYPOINT ["dotnet", "BackCoding.Challenge.WebApi.dll"]

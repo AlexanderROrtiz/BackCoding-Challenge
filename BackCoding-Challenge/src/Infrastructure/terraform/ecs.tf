@@ -1,14 +1,15 @@
-resource "aws_ecs_cluster" "main" {
+﻿resource "aws_ecs_cluster" "main" {
   name = "${var.app_name}-cluster"
 }
 
+# === Security Group del ECS ===
 resource "aws_security_group" "ecs_sg" {
   name   = "${var.app_name}-ecs-sg"
   vpc_id = aws_vpc.main.id
 
   ingress {
-    from_port       = 80
-    to_port         = 80
+    from_port       = 8080
+    to_port         = 8080
     protocol        = "tcp"
     security_groups = [aws_security_group.alb_sg.id]
   }
@@ -23,6 +24,7 @@ resource "aws_security_group" "ecs_sg" {
   tags = { Name = "${var.app_name}-ecs-sg" }
 }
 
+# === Task Definition ===
 resource "aws_ecs_task_definition" "api_task" {
   family                   = "${var.app_name}-task"
   requires_compatibilities = ["FARGATE"]
@@ -30,17 +32,42 @@ resource "aws_ecs_task_definition" "api_task" {
   cpu                      = "256"
   memory                   = "512"
 
+  # --- Contenedor principal ---
   container_definitions = jsonencode([
     {
       name      = "backcoding"
       image     = var.image_url
       essential = true
       portMappings = [{ containerPort = 8080 }]
-      environment = [
-        { name = "ASPNETCORE_ENVIRONMENT", value = "Production" },
-        { name = "JwtSettings__Key", value = var.jwt_secret },
-        { name = "ConnectionStrings__DefaultConnection", value = "Host=${aws_db_instance.postgres.address};Database=${var.db_name};Username=${var.db_username};Password=${var.db_password}" }
+
+      # Aquí lees secretos directamente desde Secrets Manager
+      secrets = [
+        {
+          name      = "JwtSettings__Key"
+          valueFrom = "${aws_secretsmanager_secret.app_secrets.arn}:JwtSettings__Key::"
+        },
+        {
+          name      = "JwtSettings__Issuer"
+          valueFrom = "${aws_secretsmanager_secret.app_secrets.arn}:JwtSettings__Issuer::"
+        },
+        {
+          name      = "JwtSettings__Audience"
+          valueFrom = "${aws_secretsmanager_secret.app_secrets.arn}:JwtSettings__Audience::"
+        },
+        {
+          name      = "JwtSettings__ExpirationMinutes"
+          valueFrom = "${aws_secretsmanager_secret.app_secrets.arn}:JwtSettings__ExpirationMinutes::"
+        },
+        {
+          name      = "ConnectionStrings__DefaultConnection"
+          valueFrom = "${aws_secretsmanager_secret.app_secrets.arn}:ConnectionStrings__DefaultConnection::"
+        }
       ]
+
+      environment = [
+        { name = "ASPNETCORE_ENVIRONMENT", value = "Production" }
+      ]
+
       logConfiguration = {
         logDriver = "awslogs"
         options = {
@@ -56,6 +83,7 @@ resource "aws_ecs_task_definition" "api_task" {
   task_role_arn      = aws_iam_role.ecs_execution_role.arn
 }
 
+# === ECS Service ===
 resource "aws_ecs_service" "api_service" {
   name            = "${var.app_name}-service"
   cluster         = aws_ecs_cluster.main.id

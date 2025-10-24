@@ -39,14 +39,14 @@ public class Program
         // Middlewares
         app.UseMiddleware<ExceptionMiddleware>();
         app.UseSerilogRequestLogging();
-        app.UseHttpsRedirection();
+        //app.UseHttpsRedirection();
         app.UseRouting();
         app.UseCors("AllowAll");
         app.UseAuthentication();
         app.UseAuthorization();
 
         // Swagger
-        if (app.Environment.IsDevelopment())
+        if (app.Environment.IsDevelopment() || app.Environment.IsProduction())
         {
             app.UseSwagger();
             app.UseSwaggerUI();
@@ -61,6 +61,7 @@ public class Program
         app.Services.EnsureFunctionsCreated();
         app.Services.SeedBaseData();
 
+        app.MapGet("/version", () => Results.Ok(new { version = "v1.1 - redeploy test OK" }));
         // Run
         app.Run();
     }

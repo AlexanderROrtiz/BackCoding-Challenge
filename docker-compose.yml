@@ -24,7 +24,7 @@ services:
     container_name: backcoding-api
     environment:
       ASPNETCORE_ENVIRONMENT: ${ASPNETCORE_ENVIRONMENT}
-      ASPNETCORE_URLS: "http://+:80"
+      ASPNETCORE_URLS: "http://+:8080"
       ConnectionStrings__DefaultConnection: ${CONNECTION_STRING}
       JwtSettings__Key: ${JWT_KEY}
       JwtSettings__Issuer: ${JWT_ISSUER}
@@ -33,7 +33,7 @@ services:
       AWS__Region: ${AWS_REGION}
       AWS__LogGroup: ${AWS_LOG_GROUP}
     ports:
-      - "8080:80"
+      - "8080:8080"
     depends_on:
       db:
         condition: service_healthy
