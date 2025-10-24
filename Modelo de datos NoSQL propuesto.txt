@@ -1,0 +1,52 @@
+Modelo NoSQL (MongoDB)
+
+Se opta por un modelo NoSQL basado en documentos (MongoDB) por su flexibilidad y facilidad para representar entidades con estructuras dinámicas.
+El uso de colecciones como Clientes, Fondos, Transacciones y Suscripciones permite agrupar la información por contexto y acceder de forma rápida mediante índices por cliente o fondo.
+
+Esta estructura facilita consultas frecuentes sin necesidad de joins complejos y mejora la escalabilidad horizontal del sistema.
+Además, la relación natural entre cliente–transacción–fondo se mantiene mediante referencias ligeras, favoreciendo la lectura rápida y el crecimiento del volumen de datos sin afectar el rendimiento.
+
+### Modelo de datos NoSQL propuesto (MongoDB)
+
+Colección **Clientes**
+json
+{
+  "_id": "clienteId",
+  "nombre": "Juan Pérez",
+  "saldo": 500000,
+  "preferencias": {
+    "notificacion": "EMAIL",
+    "email": "juan.perez@demo.com"
+  }
+}
+Colección Fondos
+
+{
+  "_id": "fondoId",
+  "nombre": "FPV_BTG_PACTUAL_RECAUDADORA",
+  "montoMinimo": 75000,
+  "categoria": "FPV"
+}
+
+
+Colección Transacciones
+
+{
+  "_id": "uuid",
+  "clienteId": "clienteId",
+  "fondoId": "fondoId",
+  "tipo": "APERTURA" | "CANCELACION",
+  "monto": 75000,
+  "fecha": "2025-10-21T10:00:00Z"
+}
+
+
+Colección Suscripciones
+
+{
+  "_id": "subId",
+  "clienteId": "clienteId",
+  "fondoId": "fondoId",
+  "valorVinculacion": 125000,
+  "estado": "ACTIVA"
+}

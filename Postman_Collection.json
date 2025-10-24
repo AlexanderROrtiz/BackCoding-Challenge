@@ -1,0 +1,217 @@
+{
+  "info": {
+    "name": "API Collection",
+    "description": "Colección de endpoints para la API.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Auth",
+      "item": [
+        {
+          "name": "Register",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"username\": \"your_username\",\n  \"password\": \"your_password\",\n  \"role\": \"your_role\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/Auth/register",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "Auth", "register"]
+            }
+          }
+        },
+        {
+          "name": "Login",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"username\": \"your_username\",\n  \"password\": \"your_password\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/Auth/login",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "Auth", "login"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Client",
+      "item": [
+        {
+          "name": "Create Client",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"firstName\": \"John\",\n  \"lastName\": \"Doe\",\n  \"city\": \"City\",\n  \"phoneNumber\": \"1234567890\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/Client/create",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "Client", "create"]
+            }
+          }
+        },
+        {
+          "name": "Bulk Create Clients",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "[\n  {\n    \"firstName\": \"Roberth\",\n    \"lastName\": \"Ortiz\",\n    \"city\": \"Bogotá\",\n    \"phoneNumber\": \"3108889999\"\n  },\n  {\n    \"firstName\": \"Camila\",\n    \"lastName\": \"Ramírez\",\n    \"city\": \"Medellín\",\n    \"phoneNumber\": \"3112223344\"\n  }\n]"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/Client/bulk",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "Client", "bulk"]
+            }
+          }
+        },
+        {
+          "name": "Get Client by ID",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/Client/{{id}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "Client", "{{id}}"]
+            }
+          }
+        },
+        {
+          "name": "Get All Clients",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/Client",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "Client"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Product",
+      "item": [
+        {
+          "name": "Create Product",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Product Name\",\n  \"productType\": \"Product Type\",\n  \"minAmount\": 1000\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/Product/create",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "Product", "create"]
+            }
+          }
+        },
+        {
+          "name": "Bulk Create Products",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "[\n  {\n    \"name\": \"FPV_BTG_PACTUAL_RECAUDADORA\",\n    \"productType\": \"FPV\",\n    \"minAmount\": 75000\n  }\n]"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/Product/bulk",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "Product", "bulk"]
+            }
+          }
+        },
+        {
+          "name": "Get All Products",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/Product",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "Product"]
+            }
+          }
+        },
+        {
+          "name": "Get Product by ID",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/Product/{{id}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "Product", "{{id}}"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Reports",
+      "item": [
+        {
+          "name": "Get Client Products Report",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/Reports/client-products",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "Reports", "client-products"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Subscription",
+      "item": [
+        {
+          "name": "Subscribe",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"clientId\": \"1\",\n  \"productId\": \"2\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/Subscription/subscribe",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "Subscription", "subscribe"]
+            }
+          }
+        },
+        {
+          "name": "Cancel Subscription",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"subscriptionId\": \"1\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/Subscription/cancel",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "Subscription", "cancel"]
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,40 @@
+# === Build / Bin ===
+bin/
+obj/
+out/
+*.exe
+*.dll
+*.log
+*.tmp
+*.db
+*.sqlite
+*.pid
+*.cache
+
+# === Config / Env ===
+.env
+appsettings.Development.json
+appsettings.Local.json
+appsettings.*.json
+secrets.json
+
+# === IDEs / OS ===
+.vs/
+.vscode/
+.idea/
+*.user
+*.suo
+*.swp
+*.DS_Store
+
+# === Docker ===
+Logs/
+pgdata/
+**/docker-compose.override.yml
+
+# === Terraform (si está dentro del repo) ===
+*.tfstate
+*.tfstate.backup
+.terraform/
+terraform.tfvars
+terraform.tfvars.json

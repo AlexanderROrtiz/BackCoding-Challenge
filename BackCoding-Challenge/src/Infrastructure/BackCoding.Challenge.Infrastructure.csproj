@@ -1,0 +1,37 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<ItemGroup>
+		<ProjectReference Include="..\Application\BackCoding.Challenge.Application.csproj" />
+		<ProjectReference Include="..\Domain\BackCoding.Challenge.Domain.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Amazon.Extensions.Configuration.SystemsManager" Version="7.0.0" />
+		<PackageReference Include="AWSSDK.CloudWatchLogs" Version="4.0.8.7" />
+		<PackageReference Include="AWSSDK.Extensions.NETCore.Setup" Version="4.0.3.7" />
+		<PackageReference Include="AWSSDK.RDS" Version="4.0.10.5" />
+		<PackageReference Include="AWSSDK.SecretsManager" Version="4.0.1.9" />
+		<PackageReference Include="BCrypt.Net-Next" Version="4.0.3" />
+		<PackageReference Include="Dapper" Version="2.1.66" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.4" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="8.0.4" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.4">
+			<PrivateAssets>all</PrivateAssets>
+		</PackageReference>
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.4">
+			<PrivateAssets>all</PrivateAssets>
+		</PackageReference>
+		<PackageReference Include="Microsoft.IdentityModel.Tokens" Version="7.1.2" />
+		<PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="8.0.4" />
+		<PackageReference Include="Portable.BouncyCastle" Version="1.9.0" />
+		<PackageReference Include="Serilog.Sinks.AwsCloudWatch" Version="4.4.42" />
+		<PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="7.1.2" />
+	</ItemGroup>
+
+	<PropertyGroup>
+		<TargetFramework>net8.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+	</PropertyGroup>
+
+</Project>
