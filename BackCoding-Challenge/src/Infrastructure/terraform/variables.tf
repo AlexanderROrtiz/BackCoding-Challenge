@@ -28,5 +28,18 @@ variable "db_password" {
 }
 
 variable "jwt_secret" {
-  default = "MySuperSecretKeyForJwtTerraform"
+  default = "zNw9ksd72W8hT2xgLrYq9zZmK2vWqBvzp1F4i0YbQ1g="
 }
+
+variable "jwt_issuer" {
+  default = "backcoding-api"
+}
+
+variable "jwt_audience" {
+  default = "backcoding-api-users"
+}
+
+variable "jwt_expiration" {
+  default = 60
+}
+

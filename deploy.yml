@@ -1,0 +1,96 @@
+﻿name: Deploy BackCoding API to AWS ECS
+
+on:
+  push:
+    branches:
+      - main   #la rama donde se va a desplegar
+
+env:
+  AWS_REGION: us-east-1
+  APP_NAME: backcoding-api
+  AWS_ACCOUNT_ID: 913500087816
+  ECR_REPO: 913500087816.dkr.ecr.us-east-1.amazonaws.com/backcoding-api
+  ECS_CLUSTER: backcoding-api-cluster
+  ECS_SERVICE: backcoding-api-service
+
+permissions:
+  contents: read
+  id-token: write
+
+jobs:
+  deploy:
+    name: Deploy Backend API
+    runs-on: ubuntu-latest
+
+    steps:
+      #  Checkout del repositorio
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      # Configurar AWS CLI y credenciales OIDC (seguro)
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: arn:aws:iam::${{ env.AWS_ACCOUNT_ID }}:role/github-deploy-role
+          aws-region: ${{ env.AWS_REGION }}
+
+      #  Login en Amazon ECR
+      - name: Login to Amazon ECR
+        uses: aws-actions/amazon-ecr-login@v2
+
+      #  Build, tag & push Docker image
+      - name: Build & Push Docker image
+        run: |
+          docker build -t $APP_NAME .
+          docker tag $APP_NAME $ECR_REPO:latest
+          docker push $ECR_REPO:latest
+
+      # Terraform Init & Apply (Infraestructura)
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: 1.7.5
+
+      - name: Terraform Init
+        working-directory: ./src/Infrastructure/terraform
+        run: terraform init -input=false
+
+      - name: Terraform Apply
+        working-directory: ./src/Infrastructure/terraform
+        run: terraform apply -auto-approve
+
+      # Force new deployment en ECS
+      - name: Force ECS Redeploy
+        run: |
+          aws ecs update-service \
+            --cluster $ECS_CLUSTER \
+            --service $ECS_SERVICE \
+            --force-new-deployment \
+            --region $AWS_REGION
+
+      # Esperar a que ECS esté Healthy
+      - name: Wait for ECS deployment
+        run: |
+          echo "Esperando a que el ECS esté healthy..."
+          timeout 600 bash -c \
+            'while true; do
+              STATUS=$(aws ecs describe-services \
+                --cluster $ECS_CLUSTER \
+                --services $ECS_SERVICE \
+                --region $AWS_REGION \
+                --query "services[0].deployments[0].rolloutState" \
+                --output text);
+              echo "Estado actual: $STATUS";
+              if [ "$STATUS" == "COMPLETED" ]; then
+                echo "✅ ECS está healthy.";
+                break;
+              fi;
+              sleep 30;
+            done'
+
+      # Mostrar URL del Load Balancer (opcional)
+      - name: Show ALB URL
+        working-directory: ./src/Infrastructure/terraform
+        run: |
+          ALB=$(terraform output -raw alb_dns_name)
+          echo " API desplegada correctamente en: http://$ALB/swagger"
